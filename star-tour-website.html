@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Star Tour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            font-family: monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            font-size: 14px;
+            z-index: 2;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), transparent);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        model-viewer {
+            width: 500px;
+            height: 500px;
+            --poster-color: transparent;
+            background-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            model-viewer {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        .password-section {
+            position: absolute;
+            bottom: 100px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .password-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 5px;
+            width: 200px;
+            margin-right: 10px;
+            font-family: monospace;
+            transition: all 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-bottom-color: #4a90e2;
+        }
+
+        .enter-button {
+            background: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-family: monospace;
+            transition: all 0.3s ease;
+        }
+
+        .enter-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            padding: 20px;
+            font-size: 12px;
+            z-index: 2;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+        }
+
+        .welcome-text {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            z-index: 2;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .error {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div>@STARTOUR_S</div>
+        <div>COMMUNICATION</div>
+    </div>
+
+    <div class="welcome-text">
+        WELCOME, TRUST YOUR INSTINCTS, FOLLOW THE SIGNS
+    </div>
+
+    <div class="main-content">
+        <model-viewer 
+            src="model.glb" 
+            auto-rotate 
+            camera-controls
+            shadow-intensity="1"
+            shadow-softness="1"
+            exposure="1"
+            auto-rotate-delay="0"
+            rotation-per-second="30deg"
+            interaction-prompt="none">
+        </model-viewer>
+    </div>
+
+    <div class="password-section">
+        <input type="password" class="password-input" placeholder="Password">
+        <button class="enter-button">Enter</button>
+    </div>
+
+    <div class="footer">
+        CA: 4daVZ1csaacdAzekbjJsKagVBu3yrhH6ixxAykStpump
+    </div>
+
+    <script>
+        // Configuration - Change these values to customize
+        const CORRECT_PASSWORD = 'test123';
+        const REDIRECT_URL = 'https://google.com';
+
+        // Password handling
+        document.querySelector('.enter-button').addEventListener('click', function() {
+            const input = document.querySelector('.password-input');
+            const password = input.value;
+            
+            if(password === CORRECT_PASSWORD) {
+                window.location.href = REDIRECT_URL;
+            } else {
+                input.value = '';
+                input.placeholder = 'Incorrect Password';
+                input.classList.add('error');
+                setTimeout(() => {
+                    input.placeholder = 'Password';
+                    input.classList.remove('error');
+                }, 2000);
+            }
+        });
+
+        // Enter key support
+        document.querySelector('.password-input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                document.querySelector('.enter-button').click();
+            }
+        });
+    </script>
+</body>
+</html>
